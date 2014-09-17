@@ -12,13 +12,14 @@ function w(teta, freq){
     var y = ELEC*ELEC * C * BETA*BETA*freq*freq / (2 * math.PI * R*R)
     return y*(b+a)*(b+a)
 };
-(function(){
+function calcFreq(){
+    var teta0 = parseFloat(document.getElementById('freq').value);
     var 
         container = document.getElementById('graphWfreq'),
         data, graph, i;
     data = []
     for(i=1.0; i<110.0; i+=1){
-        data.push([i, w(math.pi/2, i)]);
+        data.push([i, w(teta0, i)]);
     }
     graph = Flotr.draw(container, [data],{
         xaxis: {
@@ -28,8 +29,10 @@ function w(teta, freq){
             title: 'W'
         }
     });
-})();
-(function(){
+};
+calcFreq();
+function calcTeta(){
+    var freq = parseFloat(document.getElementById('teta').value);
     var 
         container = document.getElementById('graphWteta'),
         data, graph, i, ticks;
@@ -43,7 +46,7 @@ function w(teta, freq){
     ]
     data = []
     for(i=0; i<math.pi*2; i+=0.01){
-        data.push([i, w(i, 20)]);
+        data.push([i, w(i, freq)]);
     }
     graph = Flotr.draw(container, [data],{
         radar: {show: true},
@@ -56,4 +59,5 @@ function w(teta, freq){
             title: 'teta'
         }
     });
-})();
+};
+calcTeta();
