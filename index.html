@@ -7,23 +7,17 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/math.js"></script>
     <script src="js/bessel.js"></script>
-    <style type="text/css">
-        #graphWfreq, #graphWteta{
-            width: 80%;
-            height: 400px;
-            margin: 8px auto;
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css" type="text/css"/>
 </head>
 <body>
     <header>
-        <h1>Синхротронное излучение</h1>
+        <h1>Распределение мощности синхротронного излучения</h1>
     </header>
-    <input id="freq" type="number" value=1.57 step="any">
-    <input type="button" value="Расчитать" name="butFreq" onClick="calcFreq()">
+    <label>Угол</label>
+    <input id="freq" type="number" value=1.57 step="0.01" onChange="calcFreq()">
     <div id="graphWfreq"></div>
-    <input id="teta" type="number" value=20 step="any">
-    <input type="button" value="Расчитать" name="butTeta" onClick="calcTeta()">
+    <label>Частота</label>
+    <input id="teta" type="number" value=20 step="any" onChange="calcTeta()">
     <div id="graphWteta"></div>
     <script src="js/script.js"></script>
 </body>

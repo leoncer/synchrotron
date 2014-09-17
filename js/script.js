@@ -37,12 +37,12 @@ function calcTeta(){
         container = document.getElementById('graphWteta'),
         data, graph, i, ticks;
     ticks = [
+        [0,"0"],
         [math.pi/3, "pi/3"],
         [2*math.pi/3, "2pi/3"],
         [math.pi, "pi"],
         [4*math.pi/3, "4pi/3"],
-        [5*math.pi/3, "5pi/3"],
-        [2*math.pi, "2pi"]
+        [5*math.pi/3, "5pi/3"]
     ]
     data = []
     for(i=0; i<math.pi*2; i+=0.01){
