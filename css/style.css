@@ -1,5 +1,8 @@
 body{
 font-family:'Lucida Grande','Lucida Sans Unicode',Helvetica,Arial,Verdana,sans-serif;
+margin-left: auto;
+margin-right: auto;
+width: 90%;
 }
 #graphWfreq, #graphWteta{
     width: 80%;

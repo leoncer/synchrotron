@@ -5,19 +5,31 @@
     <title>Синхротронное излучение</title>
     <script src="js/flotr2.js"></script>
     <script src="js/jquery.min.js"></script>
+    <script src="js/jmat.js"></script>
     <script src="js/math.js"></script>
     <script src="js/bessel.js"></script>
+    <script type="text/javascript"
+         src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="stylesheet" href="css/style.css" type="text/css"/>
 </head>
 <body>
     <header>
         <h1>Распределение мощности синхротронного излучения</h1>
     </header>
-    <label>Угол</label>
+    <p>
+    <img src="img/formula2.png" ></img>
+    </p>
+    <label>\(\beta = v/c\)</label>
+    <input id="beta" type="number" value=0.999999 step="0.0001" onChange="calcAll()">
+    <label>\(l_\sigma\)</label>
+    <input id="lsigma" type="number" value=1 step="0.01" onChange="calcAll()">
+    <label>\(l_\pi\)</label>
+    <input id="lpi" type="number" value=0 step="0.01" onChange="calcAll()">
+    <label>\(\theta\)</label>
     <input id="freq" type="number" value=1.57 step="0.01" onChange="calcFreq()">
     <div id="graphWfreq"></div>
-    <label>Частота</label>
-    <input id="teta" type="number" value=20 step="any" onChange="calcTeta()">
+    <label>\(\nu\)</label>
+    <input id="teta" type="number" value=500000000 step="any" onChange="calcTeta()">
     <div id="graphWteta"></div>
     <script src="js/script.js"></script>
 </body>

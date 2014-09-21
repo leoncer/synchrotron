@@ -1,16 +1,16 @@
-var ELEC = math.eval('1.6*10^(-3)')
+var ELEC = math.eval('1.6*10^(-10)')
 var C = math.eval('3*10^8')
 var R = 1
-var BETA = 0.91
-var ENERGY = 10000
-var LPI = math.eval('1/2^(1/2)')
-var LSIGMA = math.eval('1/2^(1/2)')
+var BETA = 0.9999
+var LPI = 0
+var LSIGMA = 1
 function w(teta, freq){ 
-    var a = LSIGMA * BETA * (besselj(freq*BETA*math.sin(teta), freq+1)
-                         + besselj(freq*BETA*math.sin(teta), freq-1))/2
-    var b = LPI * (math.cot(teta))*besselj(freq*BETA*math.sin(teta), freq)
+    var g = 1 - Jmat.pow(BETA*math.sin(teta), 2)
+    var c = freq * Jmat.pow(g, 3/2)/3
+    var a = LSIGMA * BETA *g* (Jmat.besselk(2/3, c))
+    var b = LPI *(1/Jmat.tan(teta))* (Jmat.besselk(0.333333333, c))
     var y = ELEC*ELEC * C * BETA*BETA*freq*freq / (2 * math.PI * R*R)
-    return y*(b+a)*(b+a)
+    return y*math.pow(Jmat.abs(b+a).re,2)
 };
 function calcFreq(){
     var teta0 = parseFloat(document.getElementById('freq').value);
@@ -18,7 +18,8 @@ function calcFreq(){
         container = document.getElementById('graphWfreq'),
         data, graph, i;
     data = []
-    for(i=1.0; i<110.0; i+=1){
+    var omeg = math.floor(math.pow(1-BETA*BETA, -3/2))/10
+    for(i=1.0; i<omeg*100; i+=omeg){
         data.push([i, w(teta0, i)]);
     }
     graph = Flotr.draw(container, [data],{
@@ -30,7 +31,6 @@ function calcFreq(){
         }
     });
 };
-calcFreq();
 function calcTeta(){
     var freq = parseFloat(document.getElementById('teta').value);
     var 
@@ -45,7 +45,7 @@ function calcTeta(){
         [5*math.pi/3, "5pi/3"]
     ]
     data = []
-    for(i=0; i<math.pi*2; i+=0.01){
+    for(i=0; i<math.PI*2; i+=0.01){
         data.push([i, w(i, freq)]);
     }
     graph = Flotr.draw(container, [data],{
@@ -60,4 +60,11 @@ function calcTeta(){
         }
     });
 };
-calcTeta();
+function calcAll(){
+    BETA = parseFloat(document.getElementById('beta').value);
+    LPI = parseFloat(document.getElementById('lpi').value);
+    LSIGMA = parseFloat(document.getElementById('lsigma').value);
+    calcFreq()
+    calcTeta()
+};
+calcAll()
