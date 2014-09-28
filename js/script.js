@@ -1,3 +1,25 @@
+jQuery.fn.rotate = function(degrees) {
+    $(this).css({'-webkit-transform' : 'rotate('+ degrees +'deg)',
+                 '-moz-transform' : 'rotate('+ degrees +'deg)',
+                 '-ms-transform' : 'rotate('+ degrees +'deg)',
+                 'transform' : 'rotate('+ degrees +'deg)'});
+};
+$el = $("#el")
+$el.draggable({axis:"y",
+        containment:".main",
+        scroll:false,
+        drag: function(){
+            t = $el.offset().top;
+            a = Math.atan(($el.offset().top-$(".source").offset().top)/
+                ($el.offset().left-$(".source").offset().left))
+            $el.rotate(a*180/3.14);
+            $("#teta").val(a+math.pi/2);
+        },
+        stop: function(){
+        	calcFreq();
+        },
+	});
+
 var ELEC = math.eval('1.6*10^(-10)')
 var C = math.eval('3*10^8')
 var R = 1
@@ -5,15 +27,20 @@ var BETA = 0.9999
 var LPI = 0
 var LSIGMA = 1
 function w(teta, freq){ 
-    var g = 1 - Jmat.pow(BETA*math.sin(teta), 2)
+    var g = 1 - Jmat.pow(BETA*Jmat.sin(teta), 2)
     var c = freq * Jmat.pow(g, 3/2)/3
     var a = LSIGMA * BETA *g* (Jmat.besselk(2/3, c))
     var b = LPI *(1/Jmat.tan(teta))* (Jmat.besselk(0.333333333, c))
     var y = ELEC*ELEC * C * BETA*BETA*freq*freq / (2 * math.PI * R*R)
-    return y*math.pow(Jmat.abs(b+a).re,2)
+    return y*Jmat.pow(Jmat.abs(b+a).re,2)
+};
+function PState(teta){ 
+	var Fsigma = 4+3*Jmat.pow(BETA*Jmat.sin(teta), 2)
+	var Fpi = Jmat.pow(Jmat.cos(teta), 2)*(4+Jmat.pow(BETA*Jmat.sin(teta), 2))
+	return Fsigma/Fpi
 };
 function calcFreq(){
-    var teta0 = parseFloat(document.getElementById('freq').value);
+    var teta0 = parseFloat($("#teta").val());
     var 
         container = document.getElementById('graphWfreq'),
         data, graph, i;
@@ -31,8 +58,25 @@ function calcFreq(){
         }
     });
 };
+function calcP(){
+    var 
+        container = document.getElementById('graphPolarState'),
+        data, graph, i;
+    data = []
+    for(i=0; i<math.PI*2; i+=0.01){
+        data.push([i, PState(i)]);
+    }
+    graph = Flotr.draw(container, [data],{
+        xaxis: {
+            title: 'Teta'
+        },
+        yaxis: {
+            title: 'WSigma/WPi'
+        }
+    });
+};
 function calcTeta(){
-    var freq = parseFloat(document.getElementById('teta').value);
+    var freq = parseFloat($("#freq").val());
     var 
         container = document.getElementById('graphWteta'),
         data, graph, i, ticks;
@@ -60,11 +104,24 @@ function calcTeta(){
         }
     });
 };
+
+var intervalId
+function controlAnim(){
+clearInterval(intervalId)
+var f = 0;
+intervalId = setInterval(function() { 
+	f += 0.3*BETA;
+	$("#electron").offset({left:50*Jmat.sin(f)+$(".source").offset().left+50, top:10*Jmat.cos(f)+$(".source").offset().top+50});
+    }, 10)
+}
+
 function calcAll(){
     BETA = parseFloat(document.getElementById('beta').value);
     LPI = parseFloat(document.getElementById('lpi').value);
     LSIGMA = parseFloat(document.getElementById('lsigma').value);
     calcFreq()
     calcTeta()
+    calcP()
+    controlAnim()
 };
 calcAll()

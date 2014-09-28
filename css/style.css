@@ -1,11 +1,47 @@
 body{
-font-family:'Lucida Grande','Lucida Sans Unicode',Helvetica,Arial,Verdana,sans-serif;
-margin-left: auto;
-margin-right: auto;
-width: 90%;
+    font-family:'Lucida Grande','Lucida Sans Unicode',Helvetica,Arial,Verdana,sans-serif;
+    width: 90%;
 }
-#graphWfreq, #graphWteta{
+#graphWfreq, #graphWteta, #graphPolarState{
     width: 80%;
     height: 400px;
     margin: 8px auto;
+}
+.main{
+    float:left;
+    position: absolute;
+    width:30%;
+    height:100%;
+
+}
+.graphs{
+	float:right;
+	width:60%;
+}
+.draggable{
+    position: absolute;
+    width:90px; 
+    top:50%;
+    left:10%;
+    height:90px; 
+    text-align: center;
+    vertical-align: middle;
+    font-size:50px;
+    line-height: 90px; 
+    background-color:#F02311;}
+.source{
+    position: absolute;
+    width:90px;
+    top:50%;
+    left:50%;
+    height:90px;
+}
+#electron{
+    position: absolute;
+    border-radius: 50%;
+    width:5px;
+    top:1px;
+    left:59px;
+    height:5px;
+    background-color: #0f0;
 }
