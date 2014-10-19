@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Синхротронное излучение</title>
     <script src="js/flotr2.js"></script>
     <script src="js/jquery.min.js"></script>
@@ -9,38 +11,86 @@
     <script src="js/jmat.js"></script>
     <script src="js/math.js"></script>
     <script src="js/bessel.js"></script>
+    <script src="js/bootstrap.min.js"></script>
         <script type="text/javascript"
          src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="stylesheet" href="css/style.css" type="text/css"/>
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css" type="text/css"/>
 </head>
 <body>
     <header>
         <h1>Распределение мощности синхротронного излучения</h1>
     </header>
     
-<div class="main">
-    <div id="el" class="draggable">R</div>
-    <div class="source">
-    	<div id="electron"></div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="in">
+            <label>\(\beta\)</label>
+            <input id="beta" type="number" value=0.9999 step="0.0001" onChange="calcAll()">
+            <br/>
+            <label>\(H\)</label>
+            <input id="H" type="number" value=1 step="0.0001" onChange="calcAll()">
+            <br/>
+            <label>\(l_\sigma\)</label>
+            <input id="lsigma" type="number" value=1 step="0.01" onChange="calcAll()">
+            <br/>
+            <label>\(l_\pi\)</label>
+            <input id="lpi" type="number" value=1 step="0.01" onChange="calcAll()">
+            <br/>
+            <label>\(\theta\)</label>
+            <input id="teta" type="number" value=1.57079632679 step="0.01" onChange="calcFreq()">
+        </div>
+    </div>
+    <div class="col-md-4">
+        \(E\) = <span id="Energy"></span>
+        <br/>
+        \(R\) = <span id="R"></span>
+        <br/>
+        \(\omega_{cr}\) = <span id="omegaCrit"></span>
+        <br/>
+        \(\omega_{0}\) = <span id="omega0"></span>
+        <br/>
+        \(W_{кл}= \frac{2}{3} \frac{e^2c\beta^4}{R^2}(\frac{E}{mc^2})^4\) = <span id="Wklas"></span>
+        <br/>
+        \(\delta\psi\) = <span id="deltaPsi"></span>
+        <br/>
+        \(P\) = <span id="Pstate"></span>
+        <br/>
+    </div>
+
+    <div class="col-md-4">
     </div>
 </div>
-<div class="graphs">
     <p>
-    <img src="img/formula2.png" ></img>
+    <img src="img/formula2.png" style="max-width:100%;height:auto;"></img>
     </p>
-    <label>\(\beta = v/c\)</label>
-    <input id="beta" type="number" value=0.99 step="0.0001" onChange="calcAll()">
-    <label>\(l_\sigma\)</label>
-    <input id="lsigma" type="number" value=1 step="0.01" onChange="calcAll()">
-    <label>\(l_\pi\)</label>
-    <input id="lpi" type="number" value=0 step="0.01" onChange="calcAll()">
-    <label>\(\theta\)</label>
-    <input id="teta" type="number" value=1.57 step="0.01" onChange="calcFreq()">
-    <div id="graphWfreq"></div>
-    <div id="graphPolarState"></div>    
-    <label>\(\nu\)</label>
-    <input id="freq" type="number" value=500 step="any" onChange="calcTeta()">
-    <div id="graphWteta"></div>
+<div class="row">
+    <div class="col-xs-12 col-md-4">
+        <div class="graphs">
+            <div id="graphPolarState"></div>    
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-4">
+        <div class="main">
+            <div id="el" class="draggable"></div>
+            <div class="source">
+                <div id="electron"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-4">
+        <div class="graphs">
+            <div id="graphWfreq"></div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-md-4">
+        <div class="graphs">
+            <div id="graphWteta"></div>
+        </div>
+    </div>
 </div>
     <script src="js/script.js"></script>
 </body>
