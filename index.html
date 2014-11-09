@@ -10,7 +10,6 @@
     <script src="js/jquery-ui.min.js"></script>
     <script src="js/jmat.js"></script>
     <script src="js/math.js"></script>
-    <script src="js/bessel.js"></script>
     <script src="js/bootstrap.min.js"></script>
         <script type="text/javascript"
          src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -19,78 +18,147 @@
     <link rel="stylesheet" href="css/bootstrap-theme.min.css" type="text/css"/>
 </head>
 <body>
-    <header>
-        <h1>Распределение мощности синхротронного излучения</h1>
-    </header>
-    
-<div class="row">
-    <div class="col-md-4">
-        <div class="in">
-            <label>\(\beta\)</label>
-            <input id="beta" type="number" value=0.9999 step="0.0001" onChange="calcAll()">
-            <br/>
-            <label>\(H\)</label>
-            <input id="H" type="number" value=1 step="0.0001" onChange="calcAll()">
-            <br/>
-            <label>\(l_\sigma\)</label>
-            <input id="lsigma" type="number" value=1 step="0.01" onChange="calcAll()">
-            <br/>
-            <label>\(l_\pi\)</label>
-            <input id="lpi" type="number" value=1 step="0.01" onChange="calcAll()">
-            <br/>
-            <label>\(\theta\)</label>
-            <input id="teta" type="number" value=1.57079632679 step="0.01" onChange="calcFreq()">
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Синхротронное излучение</a>
         </div>
     </div>
+</nav>
+<div class="container">
+<div class="row">
     <div class="col-md-4">
-        \(E\) = <span id="Energy"></span>
-        <br/>
-        \(R\) = <span id="R"></span>
-        <br/>
-        \(\omega_{cr}\) = <span id="omegaCrit"></span>
-        <br/>
-        \(\omega_{0}\) = <span id="omega0"></span>
-        <br/>
-        \(W_{кл}= \frac{2}{3} \frac{e^2c\beta^4}{R^2}(\frac{E}{mc^2})^4\) = <span id="Wklas"></span>
-        <br/>
-        \(\delta\psi\) = <span id="deltaPsi"></span>
-        <br/>
-        \(P\) = <span id="Pstate"></span>
-        <br/>
+        <form role="form">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">\(E, MeV\)</label>
+                <div class="col-sm-9">
+                    <input id="Energy" class="form-control" type="number" value=100 step="0.0001" onChange="calcAll()">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">\(H\)</label>
+                <div class="col-sm-9">
+                    <input id="H" class="form-control" type="number" value=1 step="0.0001" onChange="calcAll()">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">\(l_\sigma\)</label>
+                <div class="col-sm-9">
+                    <input id="lsigma" class="form-control" type="number" value=1 step="0.01" onChange="calcAll()">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">\(l_\pi\)</label>
+                <div class="col-sm-9">
+                    <input id="lpi" class="form-control" type="number" value=1 step="0.01" onChange="calcAll()">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">\(\theta\)</label>
+                <div class="col-sm-9">
+                    <input id="teta" class="form-control" type="number" value=1.57079632679 step="0.01" onChange="calcFreq()">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-4">
+            <ul class="list-group">
+            <li class="list-group-item">
+                \(\beta\) = <span id="Beta"></span>
+            </li>
+            <li class="list-group-item">
+                \(R\) = <span id="R"></span>
+            </li>
+            <li class="list-group-item">
+                \(\omega_{cr}\) = <span id="omegaCrit"></span>
+            </li>
+            <li class="list-group-item">
+                \(\omega_{0}\) = <span id="omega0"></span>
+            </li>
+        </ul>
     </div>
 
     <div class="col-md-4">
+        <ul class="list-group">
+            <li class="list-group-item">
+                \(W_{кл}= \frac{2}{3} \frac{e^2c}{R^2}(\frac{E}{mc^2})^4\) = <span id="Wklas"></span>
+            </li>
+            <li class="list-group-item">
+                \(\delta\psi\) = <span id="deltaPsi"></span>
+            </li>
+            <li class="list-group-item">
+                \(P\) = <span id="Pstate"></span>
+            </li>
+        </ul>
     </div>
 </div>
     <p>
+    <!--
     <img src="img/formula2.png" style="max-width:100%;height:auto;"></img>
+    -->
     </p>
 <div class="row">
     <div class="col-xs-12 col-md-4">
-        <div class="graphs">
-            <div id="graphPolarState"></div>    
-        </div>
-    </div>
-    <div class="col-xs-12 col-md-4">
-        <div class="main">
-            <div id="el" class="draggable"></div>
-            <div class="source">
-                <div id="electron"></div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">Поляризация</div>
+            <div class="panel-body">
+                    <div class="graphs">
+                        <div id="graphPolarState"></div>    
+                    </div>
             </div>
         </div>
     </div>
     <div class="col-xs-12 col-md-4">
-        <div class="graphs">
-            <div id="graphWfreq"></div>
+        <div class="panel panel-primary">
+            <div class="panel-body">
+                <div class="main">
+                    <div id="el" class="draggable"></div>
+                    <div class="source">
+                        <div id="electron"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Спетр излучения по компонентам</div>
+            <div class="panel-body">
+                <div class="graphs">
+                    <div id="graphWfreq"></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 <div class="row">
     <div class="col-xs-12 col-md-4">
-        <div class="graphs">
-            <div id="graphWteta"></div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">Угловое распределение излучения</div>
+            <div class="panel-body">
+                <div class="graphs">
+                    <div id="graphWteta"></div>
+                </div>
+            </div>
         </div>
     </div>
+    <div class="col-xs-12 col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Спетр мощности излучения</div>
+            <div class="panel-body">
+                <div class="graphs">
+                    <div id="graphWfreqNoPol"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
     <script src="js/script.js"></script>
 </body>
