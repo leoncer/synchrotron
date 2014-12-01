@@ -1,22 +1,14 @@
 var ELEC = math.eval('1.6*10^(-19)')
 var C = math.eval('3*10^8')
-var R = 1
-var BETA = 0.9999
-var LPI = 0
-var LSIGMA = 1
-var E = 1
-var H = 1
 var mc2 = math.eval('9.109*10^-31')*C*C 
-var omegaCrit = 10000
-var omega0 = 1;
-var deltaPsi;
-var teta0;
+var R, BETA, E, H, omegaCrit, omega0, deltaPsi,teta0;
 jQuery.fn.rotate = function(degrees) {
     $(this).css({'-webkit-transform' : 'rotate('+ degrees +'deg)',
                  '-moz-transform' : 'rotate('+ degrees +'deg)',
                  '-ms-transform' : 'rotate('+ degrees +'deg)',
                  'transform' : 'rotate('+ degrees +'deg)'});
 };
+
 $el = $("#el")
 $el.draggable({axis:"y",
         containment:".main",
@@ -54,24 +46,43 @@ function PState(teta, freq){
 function calcFreq(){
     var 
         container = document.getElementById('graphWfreq'),
-        data, graph, i;
-    data = []
+        graph, i;
+    dataPI = []
+    dataSIGMA = []
     var step = math.ceil(omegaCrit/30)
     var max = -100;
+    var max2 = -100;
     for(i=1.0; i<2*omegaCrit; i+=step){
-        a = w(teta0, i, LPI, LSIGMA)
-        data.push([i, a]);
+        a = w(teta0, i, 1, 0)
+        b = w(teta0, i, 0, 1)
+        dataPI.push([i, a]);
+        dataSIGMA.push([i, b]);
         if(a>max) max = a;
+        if(b>max2) max2 = b;
     }
     ticksY = createTicks(0, max)
+    ticksY2 = createTicks(0,max2)
     ticks= createTicks(0, omegaCrit*2);
-    graph = Flotr.draw(container, [data],{
+    graph = Flotr.draw(container, [{
+            data: dataPI,
+            label: '&pi;'
+        }, { 
+            data:dataSIGMA,
+            label: '&sigma;',
+          yaxis: 2
+        }], {
         xaxis: {
             title: '&#969;',
             ticks: ticks
         },
         yaxis: {
             ticks: ticksY
+        },
+        y2axis: {
+            ticks: ticksY2
+        },
+        legend:{
+            position: 'ne'
         }
     });
 };
@@ -112,18 +123,35 @@ function calcP(){
         container = document.getElementById('graphPolarState'),
         data, graph, i;
     data = []
-    var step = math.ceil(omegaCrit/10)
-    for(i=1.0; i<omegaCrit; i+=step){
+    var step = math.ceil(omegaCrit/30)
+    for(i=1.0; i<2*omegaCrit; i+=step){
         data.push([i, PState(teta0, i)]);
     }
+    dataCrit = [[omegaCrit, PState(teta0,omegaCrit)]]
     ticks= createTicks(0, omegaCrit*2);
-    graph = Flotr.draw(container, [data],{
+    graph = Flotr.draw(container, [
+        {
+            data: data
+        }, {
+            data: dataCrit, 
+            points: {
+                show: true
+            },
+            label: 'P(&omega;<sub>кр</sub>) = '+ toNormalNumber(PState(teta0,omegaCrit))
+        }
+        ],{
         xaxis: {
             title: '&omega;',
             ticks: ticks
         },
         yaxis: {
-            ticks: [1, 0, -1]
+            min: -1,
+            max: 1,
+            ticks: [1, 0, -1],
+            autoscale: false,
+        },
+        legend:{
+            position: 'ne'
         }
     });
 };
@@ -131,26 +159,42 @@ function calcTeta(){
     var 
         container = document.getElementById('graphWteta'),
         data, graph, i;
-    data = []
-    var max = -100;
+    dataPI = []
+    dataSIGMA = []
+    var max = -100
+    var max2 = -100
     for(i=math.PI/2-3*deltaPsi; i<math.PI/2+3*deltaPsi; i+=deltaPsi/30){
-        a = w(i, omegaCrit, LPI, LSIGMA);
-        data.push([i, a]);
+        a = w(i, omegaCrit, 1, 0);
+        b = w(i, omegaCrit, 0, 1);
+        dataPI.push([i, a]);
+        dataSIGMA.push([i, b]);
         if(a>max) max = a;
+        if(b>max2) max2 = b;
     }
     ticksY = createTicks(0, max)
+    ticksY2 = createTicks(0,max2)
     ticks= [];
     ticks.push([math.PI/2, "\u03c0/2"])
     ticks.push([math.PI/2-2*deltaPsi, "\u03c0/2-2&delta;&#968;"])
     ticks.push([math.PI/2+2*deltaPsi, "\u03c0/2+2&delta;&#968;"])
-    graph = Flotr.draw(container, [data],{
+    graph = Flotr.draw(container, [{
+            data: dataPI,
+            label: '&pi;'
+        }, { 
+            data:dataSIGMA,
+            label: '&sigma;',
+          yaxis: 2
+        }], {
         xaxis: {
             title: '&theta;',
             ticks: ticks,
         },
         yaxis: {
             ticks: ticksY
-        }
+        },
+        y2axis: {
+            ticks: ticksY2
+        },
     });
 };
 
@@ -167,8 +211,6 @@ function controlAnim(){
 
 function calcAll(){
     E = parseFloat(document.getElementById('Energy').value);
-    LPI = parseFloat(document.getElementById('lpi').value);
-    LSIGMA = parseFloat(document.getElementById('lsigma').value);
     H = parseFloat(document.getElementById('H').value);
     E = E *1.6*math.pow(10,-19+6)//+6 because MeV insteat eV
     BETA = math.pow(1-math.pow(mc2/E, 2),1/2)
@@ -178,7 +220,6 @@ function calcAll(){
     omegaCrit = (math.pow(E/mc2, 3)*4)
     deltaPsi = mc2/E
     var Wklas = 2/3 * ELEC*ELEC*C*Jmat.pow(E/mc2,4)/(R*R)
-    $("#Pstate").html(toNormalNumber(PState(teta0,omegaCrit)))
     $("#Beta").html(BETA)
     $("#R").html(toNormalNumber(R))
     $("#Wklas").html(toNormalNumber(Wklas))
@@ -194,4 +235,15 @@ function calcAll(){
 function toNormalNumber(num){
     return num.toPrecision(2).replace("e+", "&#8901;10<sup>")+"</sup>"
 };
+function resize(){
+    a = $('#graphWfreq, #graphWteta, #graphPolarState, #graphWfreqNoPol, .main')
+    height = $(window).height()
+    console.log(height)
+    if($(window).width()>970)  a.height(height/3) 
+    else {a.height($(window).width()/2)}
+    a.css({'width': '100%'})
+    calcAll()
+}
+resize()
+$(window).resize(function(){resize()})
 calcAll()

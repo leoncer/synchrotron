@@ -11,8 +11,6 @@
     <script src="js/jmat.js"></script>
     <script src="js/math.js"></script>
     <script src="js/bootstrap.min.js"></script>
-        <script type="text/javascript"
-         src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="stylesheet" href="css/style.css" type="text/css"/>
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
     <link rel="stylesheet" href="css/bootstrap-theme.min.css" type="text/css"/>
@@ -33,67 +31,64 @@
 </nav>
 <div class="container">
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-xs-12 col-md-4">
         <form role="form">
             <div class="form-group">
-                <label class="col-sm-3 control-label">\(E, MeV\)</label>
+                <label class="col-sm-3 control-label">
+                    <span class="math">E,MeV</span>
+                </label>
                 <div class="col-sm-9">
                     <input id="Energy" class="form-control" type="number" value=100 step="0.0001" onChange="calcAll()">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">\(H\)</label>
+                <label class="col-sm-3 control-label">
+                    <span class="math">H</span>
+                </label>
                 <div class="col-sm-9">
                     <input id="H" class="form-control" type="number" value=1 step="0.0001" onChange="calcAll()">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">\(l_\sigma\)</label>
+                <label class="col-sm-3 control-label">
+                    <span class="math">&theta;</span>
+                </label>
                 <div class="col-sm-9">
-                    <input id="lsigma" class="form-control" type="number" value=1 step="0.01" onChange="calcAll()">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">\(l_\pi\)</label>
-                <div class="col-sm-9">
-                    <input id="lpi" class="form-control" type="number" value=1 step="0.01" onChange="calcAll()">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">\(\theta\)</label>
-                <div class="col-sm-9">
-                    <input id="teta" class="form-control" type="number" value=1.57079632679 step="0.01" onChange="calcFreq()">
+                    <input id="teta" class="form-control" type="number" value=1.57079632679 step="0.01" onChange="calcAll()">
                 </div>
             </div>
         </form>
     </div>
-    <div class="col-md-4">
+    <div class="col-xs-12 col-md-4">
             <ul class="list-group">
             <li class="list-group-item">
-                \(\beta\) = <span id="Beta"></span>
+                <span class="math">&beta;</span>
+                 = <span id="Beta"></span>
             </li>
             <li class="list-group-item">
-                \(R\) = <span id="R"></span>
+                <span class="math">R</span>
+                 = <span id="R"></span>
             </li>
             <li class="list-group-item">
-                \(\omega_{cr}\) = <span id="omegaCrit"></span>
+                <span class="math">&omega;<sub>кр</sub></span>
+                = <span id="omegaCrit"></span>
             </li>
             <li class="list-group-item">
-                \(\omega_{0}\) = <span id="omega0"></span>
+                <span class="math">&omega;<sub>0</sub></span>
+                = <span id="omega0"></span>
             </li>
         </ul>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-xs-12 col-md-4">
         <ul class="list-group">
             <li class="list-group-item">
-                \(W_{кл}= \frac{2}{3} \frac{e^2c}{R^2}(\frac{E}{mc^2})^4\) = <span id="Wklas"></span>
+                <span class="math">W<sub>кл</sub></span>
+                = <span id="Wklas"></span>
             </li>
             <li class="list-group-item">
-                \(\delta\psi\) = <span id="deltaPsi"></span>
-            </li>
-            <li class="list-group-item">
-                \(P\) = <span id="Pstate"></span>
+                <span class="math">&delta;&psi;</span>
+                = <span id="deltaPsi"></span>
             </li>
         </ul>
     </div>
@@ -106,11 +101,11 @@
 <div class="row">
     <div class="col-xs-12 col-md-4">
         <div class="panel panel-primary">
-            <div class="panel-heading">Поляризация</div>
+            <div class="panel-heading">Угловое распределение излучения</div>
             <div class="panel-body">
-                    <div class="graphs">
-                        <div id="graphPolarState"></div>    
-                    </div>
+                <div class="graphs">
+                    <div id="graphWteta"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -128,11 +123,11 @@
     </div>
     <div class="col-xs-12 col-md-4">
         <div class="panel panel-primary">
-            <div class="panel-heading">Спетр излучения по компонентам</div>
+            <div class="panel-heading">Поляризация</div>
             <div class="panel-body">
-                <div class="graphs">
-                    <div id="graphWfreq"></div>
-                </div>
+                    <div class="graphs">
+                        <div id="graphPolarState"></div>    
+                    </div>
             </div>
         </div>
     </div>
@@ -140,17 +135,17 @@
 <div class="row">
     <div class="col-xs-12 col-md-4">
         <div class="panel panel-primary">
-            <div class="panel-heading">Угловое распределение излучения</div>
+            <div class="panel-heading">Спетр мощности излучения</div>
             <div class="panel-body">
                 <div class="graphs">
-                    <div id="graphWteta"></div>
+                    <div id="graphWfreq"></div>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-xs-12 col-md-4">
         <div class="panel panel-primary">
-            <div class="panel-heading">Спетр мощности излучения</div>
+            <div class="panel-heading">Спетр полной мощности излучения</div>
             <div class="panel-body">
                 <div class="graphs">
                     <div id="graphWfreqNoPol"></div>
