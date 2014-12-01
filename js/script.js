@@ -220,9 +220,13 @@ function calcAll(){
     omegaCrit = (math.pow(E/mc2, 3)*4)
     deltaPsi = mc2/E
     var Wklas = 2/3 * ELEC*ELEC*C*Jmat.pow(E/mc2,4)/(R*R)
+    var Wsigma = Wklas*(6+BETA*BETA*BETA)/8
+    var Wpi = Wklas*(2- BETA*BETA)/8
     $("#Beta").html(BETA)
     $("#R").html(toNormalNumber(R))
     $("#Wklas").html(toNormalNumber(Wklas))
+    $("#Wsigma").html(toNormalNumber(Wsigma))
+    $("#Wpi").html(toNormalNumber(Wpi))
     $("#deltaPsi").html(toNormalNumber(deltaPsi))
     $("#omega0").html(toNormalNumber(omega0))
     $("#omegaCrit").html(toNormalNumber(omegaCrit))
