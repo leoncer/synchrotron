@@ -204,8 +204,8 @@ function controlAnim(){
     var f = 0;
     intervalId = setInterval(function() { 
         f += 0.2*BETA;
-        $("#electron").offset({left:70*Jmat.sin(f)+$(".source").offset().left
-            + 50, top:20*Jmat.cos(f)+$(".source").offset().top+50});
+        $("#electron").offset({left:$('.source').width()*(0.46*Jmat.sin(f)+0.48)+$(".source").offset().left, 
+            top:$('.source').height()*(Jmat.cos(f)*0.27+0.5)+$(".source").offset().top});
     }, 50)
 }
 
