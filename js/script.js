@@ -52,7 +52,7 @@ function calcFreq(){
     var step = math.ceil(omegaCrit/30)
     var max = -100;
     var max2 = -100;
-    for(i=1.0; i<2*omegaCrit; i+=step){
+    for(i=1.0; i<4*omegaCrit; i+=step){
         a = w(teta0, i, 1, 0)
         b = w(teta0, i, 0, 1)
         dataPI.push([i, a]);
@@ -62,7 +62,7 @@ function calcFreq(){
     }
     ticksY = createTicks(0, max)
     ticksY2 = createTicks(0,max2)
-    ticks= createTicks(0, omegaCrit*2);
+    ticks= createTicks(0, omegaCrit*4);
     graph = Flotr.draw(container, [{
             data: dataPI,
             label: '&pi;'
@@ -101,13 +101,13 @@ function calcFreqNoPol(){
     data = []
     var step = math.ceil(omegaCrit/30)
     var max = -100;
-    for(i=1.0; i<2*omegaCrit; i+=step){
+    for(i=1.0; i<4*omegaCrit; i+=step){
         a = w(teta0, i, 1, 0)+w(teta0, i, 0, 1);
         data.push([i, a]);
         if(a>max) max = a;
     }
     ticksY = createTicks(0, max)
-    ticks= createTicks(0, 2*omegaCrit);
+    ticks= createTicks(0, 4*omegaCrit);
     graph = Flotr.draw(container, [data],{
         xaxis: {
             title: '&#969;',
@@ -217,7 +217,7 @@ function calcAll(){
     R = BETA*E/(ELEC*H)
     teta0 = parseFloat($("#teta").val());
     omega0 = ELEC*H*C/E
-    omegaCrit = (math.pow(E/mc2, 3)*4)
+    omegaCrit = (math.pow(E/mc2, 3)*1.2)
     deltaPsi = mc2/E
     var Wklas = 2/3 * ELEC*ELEC*C*Jmat.pow(E/mc2,4)/(R*R)
     var Wsigma = Wklas*(6+BETA*BETA*BETA)/8
